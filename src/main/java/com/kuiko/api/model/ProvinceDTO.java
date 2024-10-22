@@ -8,11 +8,11 @@ public class ProvinceDTO {
     private String provinceName;
 
 
-    public ProvinceDTO(String codigoCa, String nombreCa, int codigoProvincia, String nombreProvincia) {
-        this.communityCode = codigoCa;
-        this.communityName = nombreCa;
-        this.provinceCode = codigoProvincia;
-        this.provinceName = nombreProvincia;
+    public ProvinceDTO(String communityCode, String communityName, int provinceCode, String provinceName) {
+        this.communityCode = communityCode;
+        this.communityName = communityName;
+        this.provinceCode = provinceCode;
+        this.provinceName = provinceName;
     }
 
     public String getCommunityCode() {

@@ -22,7 +22,7 @@ public class Province {
     private String communityCode;
 
     @ManyToOne
-    @JoinColumn(name = "community_cod", nullable = false)
+    @JoinColumn(name = "community_code", nullable = false)
     private Community community;
 
 

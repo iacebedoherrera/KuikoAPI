@@ -35,10 +35,23 @@ Tenemos dos usuarios:
 ### Ejercicio 1
 
 Desarrollar un endpoint que dado el parámetro código de provincia responda con:
-- código de la comunidad autónoma.
-- nombre de la comunidad autónoma.
-- código de la provincia.
-- nombre de la provincia.
+- Código de la comunidad autónoma.
+- Nombre de la comunidad autónoma.
+- Código de la provincia.
+- Nombre de la provincia.
+
+
+### Ejercicio 2
+
+Desarrollar un endpoint que dado el parámetro código de comunidad autónoma responda con:
+- Código de la comunidad autónoma.
+- Nombre de la comunidad autónoma.
+- Cantidad de provincias.
+
+
+## Tests
+
+En la clase ApiApplicationTests hay tests unitarios que prueban todos los endpoints (menos los de importación de CSVs).
 
 
 ## Contacto

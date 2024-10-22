@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kuiko.api.model.Province;
+import com.kuiko.api.model.ProvinceDTO;
 import com.kuiko.api.repository.ProvinceRepository;
 
 
@@ -17,8 +18,19 @@ public class ProvinceService {
     private ProvinceRepository provinceRepository;
 
 
-    public Optional<Province> getProvinceInfoByProvinceCode(int provinceCode) {
-        return provinceRepository.findById(provinceCode);
+    public Optional<ProvinceDTO> getProvinceInfoByProvinceCode(int provinceCode) {
+        Optional<Province> province = provinceRepository.findById(provinceCode);
+
+        if (province.isPresent()) {
+            return Optional.of(new ProvinceDTO(
+                province.get().getCommunity().getCode(),
+                province.get().getCommunity().getName(),
+                province.get().getCode(),
+                province.get().getName()
+            ));
+        } else {
+            return Optional.empty();
+        }
     }
 
 }

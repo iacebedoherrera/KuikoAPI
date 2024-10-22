@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kuiko.api.model.Province;
+import com.kuiko.api.model.CommunityDTO;
 import com.kuiko.api.model.ProvinceDTO;
 import com.kuiko.api.service.CSVService;
+import com.kuiko.api.service.CommunityService;
 import com.kuiko.api.service.ProvinceService;
 
 
@@ -20,6 +21,9 @@ import com.kuiko.api.service.ProvinceService;
 @RestController
 @RequestMapping("/api")
 public class Controller {
+
+    @Autowired
+    private CommunityService communityService;
 
     @Autowired
     private ProvinceService provinceService;
@@ -50,16 +54,19 @@ public class Controller {
 
     @GetMapping("/province/{provinceCode}")
     public ResponseEntity<?> getProvinceInfo(@PathVariable int provinceCode) {
-        Optional<Province> provinceInfo = provinceService.getProvinceInfoByProvinceCode(provinceCode);
+        Optional<ProvinceDTO> provinceInfo = provinceService.getProvinceInfoByProvinceCode(provinceCode);
 
-        return provinceInfo.map(province -> {
-            ProvinceDTO response = new ProvinceDTO(
-                province.getCommunity().getCode(),
-                province.getCommunity().getName(),
-                province.getCode(),
-                province.getName()
-            );
-            return ResponseEntity.ok(response);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+        return provinceInfo
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/community/{communityCode}")
+    public ResponseEntity<?> getCommunityInfo(@PathVariable String communityCode) {
+        Optional<CommunityDTO> communityInfo = communityService.getCommunityInfoByCommunityCode(communityCode);
+
+        return communityInfo
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

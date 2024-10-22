@@ -9,4 +9,6 @@ import com.kuiko.api.model.Province;
 @Repository
 public interface ProvinceRepository extends JpaRepository<Province, Integer> {
 
+    int countByCommunity_Code(String communityCode);
+
 }
