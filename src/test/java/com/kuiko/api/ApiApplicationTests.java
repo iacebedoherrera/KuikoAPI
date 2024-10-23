@@ -14,7 +14,9 @@ import com.kuiko.api.model.Community;
 import com.kuiko.api.model.CommunityDTO;
 import com.kuiko.api.model.Province;
 import com.kuiko.api.model.ProvinceDTO;
+import com.kuiko.api.model.WeatherDTO;
 import com.kuiko.api.service.CommunityService;
+import com.kuiko.api.service.OpenWeatherService;
 import com.kuiko.api.service.ProvinceService;
 
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -39,6 +41,9 @@ class ApiApplicationTests {
 
     @MockBean
     private CommunityService communityService;
+
+    @MockBean
+    private OpenWeatherService openWeatherService;
 
 
     private Province testProvince;
@@ -84,7 +89,7 @@ class ApiApplicationTests {
 
     @Test
     public void testProvinceNotFound() throws Exception {
-        when(provinceService.getProvinceInfoByProvinceCode(anyInt())).thenReturn(Optional.empty());
+        when(provinceService.getProvinceInfoByProvinceCode(999)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/province/999")
 				.with(httpBasic("user", "password"))
@@ -108,7 +113,32 @@ class ApiApplicationTests {
 
     @Test
     public void testCommunityNotFound() throws Exception {
-        when(provinceService.getProvinceInfoByProvinceCode(anyInt())).thenReturn(Optional.empty());
+        when(communityService.getCommunityInfoByCommunityCode("MAD")).thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/api/community/MAD")
+				.with(httpBasic("user", "password"))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testWeatherWithExistantCommunity() throws Exception {
+        WeatherDTO weatherDTO = new WeatherDTO("CV", "25.6", "1024", "62");
+        when(openWeatherService.getWeatherInfoByCommunityCode("CV")).thenReturn(Optional.of(weatherDTO));
+
+        mockMvc.perform(get("/api/weather/CV")
+				.with(httpBasic("user", "password"))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.communityCode").value("CV"))
+                .andExpect(jsonPath("$.temperature").value("25.6"))
+                .andExpect(jsonPath("$.pressure").value("1024"))
+                .andExpect(jsonPath("$.humidity").value("62"));
+    }
+
+    @Test
+    public void testWeatherWithNonExistantCommunity() throws Exception {
+        when(openWeatherService.getWeatherInfoByCommunityCode("MAD")).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/community/MAD")
 				.with(httpBasic("user", "password"))

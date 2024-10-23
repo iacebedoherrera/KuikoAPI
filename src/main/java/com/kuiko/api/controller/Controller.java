@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kuiko.api.model.CommunityDTO;
 import com.kuiko.api.model.ProvinceDTO;
+import com.kuiko.api.model.WeatherDTO;
 import com.kuiko.api.service.CSVService;
 import com.kuiko.api.service.CommunityService;
+import com.kuiko.api.service.OpenWeatherService;
 import com.kuiko.api.service.ProvinceService;
 
 
@@ -30,6 +32,9 @@ public class Controller {
 
     @Autowired
     private CSVService csvService;
+
+    @Autowired
+    private OpenWeatherService openWeatherService;
 
 
     @GetMapping("import/communities")
@@ -66,6 +71,15 @@ public class Controller {
         Optional<CommunityDTO> communityInfo = communityService.getCommunityInfoByCommunityCode(communityCode);
 
         return communityInfo
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/weather/{communityCode}")
+    public ResponseEntity<WeatherDTO> getWeatherInfo(@PathVariable String communityCode) {
+        Optional<WeatherDTO> weatherDTO = openWeatherService.getWeatherInfoByCommunityCode(communityCode);
+        
+        return weatherDTO
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
