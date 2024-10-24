@@ -31,7 +31,7 @@ Requisitos mínimos:
 
 ## Ejercicios
 
-Previo a la ejecución de los endpoints, hay que importar los datos de la base de datos en memoria H2. Para ello, llamaremos a los endpoints:
+Al inicio de la aplicación, se importan automáticamente los CSVs con los datos que irán a la base de datos en memoria H2. Aún así, estos son los endpoints a los que se podría llamar para hacerlo manualmente:
 1. /api/import/communities?filePath=src/main/resources/static/COMUNIDAD_AUTONOMA.csv
 2. /api/import/provinces?filePath=src/main/resources/static/PROVINCIA.csv
 Es importante hacerlo en ese orden, ya que no se pueden importar las provincias sin antes tener las comunidades.
@@ -45,6 +45,10 @@ Tenemos dos usuarios:
 
 ### Ejercicio 1
 
+Crear los endpoints necesarios para realizar el CRUD sobre las dos tablas: comunidad_autonoma y provincia. Se facilitan endpoints para acceder a estas operaciones.
+
+### Ejercicio 2
+
 Desarrollar un endpoint que dado el parámetro código de provincia responda con:
 - Código de la comunidad autónoma.
 - Nombre de la comunidad autónoma.
@@ -52,14 +56,14 @@ Desarrollar un endpoint que dado el parámetro código de provincia responda con
 - Nombre de la provincia.
 
 
-### Ejercicio 2
+### Ejercicio 3
 
 Desarrollar un endpoint que dado el parámetro código de comunidad autónoma responda con:
 - Código de la comunidad autónoma.
 - Nombre de la comunidad autónoma.
 - Cantidad de provincias.
 
-### Ejercicio 3
+### Ejercicio 4
 
 En este tercer ejercicio, en el que se pedía comunicar con una API de terceros, se ha decidido crear un nuevo endpoint que hace lo siguiente:
 
