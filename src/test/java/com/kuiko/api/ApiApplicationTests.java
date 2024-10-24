@@ -19,7 +19,6 @@ import com.kuiko.api.service.CommunityService;
 import com.kuiko.api.service.OpenWeatherService;
 import com.kuiko.api.service.ProvinceService;
 
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -61,13 +60,11 @@ class ApiApplicationTests {
 		testProvince = new Province();
         testProvince.setCode(3);
         testProvince.setName("ALICANTE - ALACANT");
-		testProvince.setCommunityCode("CV");
         testProvince.setCommunity(testCommunity);
 
         testProvince2 = new Province();
         testProvince2.setCode(12);
         testProvince2.setName("CASTELLON/CASTELLO");
-		testProvince2.setCommunityCode("CV");
         testProvince2.setCommunity(testCommunity);
     }
 
@@ -77,7 +74,7 @@ class ApiApplicationTests {
                                                     testProvince.getCode(), testProvince.getName());
         when(provinceService.getProvinceInfoByProvinceCode(3)).thenReturn(Optional.of(provinceDTO));
 
-        mockMvc.perform(get("/api/province/3")
+        mockMvc.perform(get("/api/province/ejercicio_2/3")
 				.with(httpBasic("user", "password"))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -91,7 +88,7 @@ class ApiApplicationTests {
     public void testProvinceNotFound() throws Exception {
         when(provinceService.getProvinceInfoByProvinceCode(999)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/api/province/999")
+        mockMvc.perform(get("/api/province/ejercicio_2/999")
 				.with(httpBasic("user", "password"))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -102,7 +99,7 @@ class ApiApplicationTests {
         CommunityDTO communityDTO = new CommunityDTO(testCommunity.getCode(), testCommunity.getName(), 2);
         when(communityService.getCommunityInfoByCommunityCode("CV")).thenReturn(Optional.of(communityDTO));
 
-        mockMvc.perform(get("/api/community/CV")
+        mockMvc.perform(get("/api/community/ejercicio_3/CV")
 				.with(httpBasic("user", "password"))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -115,7 +112,7 @@ class ApiApplicationTests {
     public void testCommunityNotFound() throws Exception {
         when(communityService.getCommunityInfoByCommunityCode("MAD")).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/api/community/MAD")
+        mockMvc.perform(get("/api/community/ejercicio_3/MAD")
 				.with(httpBasic("user", "password"))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());

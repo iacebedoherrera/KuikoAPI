@@ -6,32 +6,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "province")
 public class Province {
     
     @Id
-    private int code;
+    private Integer code;
     
     @Column(nullable = false)
     private String name;
-
-    @Transient
-    private String communityCode;
 
     @ManyToOne
     @JoinColumn(name = "community_code", nullable = false)
     private Community community;
 
 
-    
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -41,14 +36,6 @@ public class Province {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCommunityCode() {
-        return communityCode;
-    }
-
-    public void setCommunityCode(String communityCode) {
-        this.communityCode = communityCode;
     }
 
     public Community getCommunity() {

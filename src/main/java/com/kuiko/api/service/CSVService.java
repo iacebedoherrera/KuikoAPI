@@ -36,7 +36,6 @@ public class CSVService {
             List<String[]> records = reader.readAll();
             for (String[] record : records) {
                 Province province = new Province();
-                province.setCommunityCode(record[0]);
                 province.setCode(Integer.parseInt(record[1]));
                 province.setName(record[2]);
 
